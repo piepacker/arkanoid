@@ -3,10 +3,16 @@ Module["input_analogR_user_state"] = [{}, {}, {}, {}, {}];
 Module["input_analogL_user_state"] = [{}, {}, {}, {}, {}];
 Module["env_controller_info"] = [new Map(), new Map(),new Map(), new Map(),new Map(), new Map(),new Map(), new Map()];
 
+Module["inputState"] = function(port, id) {
+  return Module["input_user_state"][port][id];
+}
+
 Module["onRuntimeInitialized"] = function () {
   this.frontendLoop = this.cwrap("frontend_loop", null, ["number"]);
   this.frontendIterate = this.cwrap("frontend_iterate", null, []);
   this.frontendSkipFrame = this.cwrap("frontend_skip_frame", null, ["number"]);
+  this.frontendSetFast = this.cwrap("frontend_set_fast", null, []);
+  this.frontendUnsetFast = this.cwrap("frontend_unset_fast", null, []);
   this.frontendLoadGame = this.cwrap("frontend_load_game", "number", ["number"]);
   this.frontendUnloadGame = this.cwrap("frontend_unload_game", "number", []);
   this.frontendGetState = this.cwrap("frontend_get_state", "number", ["number", "number"]);
@@ -126,7 +132,15 @@ Module["loop"] = function (fps) {
 };
 
 Module["skip_frame"] = function (frames) {
-    this.frontendSkipFrame(frames);
+  this.frontendSkipFrame(frames);
+};
+
+Module["setFast"] = function () {
+  this.frontendSetFast();
+};
+
+Module["unsetFast"] = function () {
+  this.frontendUnsetFast();
 };
 
 Module["reset"] = function () {
