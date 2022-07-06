@@ -22,6 +22,7 @@ int16_t input_state(unsigned port, unsigned device, unsigned index, unsigned id)
 
 		return js_input_state(port, id);
 	}
+
 	if (device == RETRO_DEVICE_ANALOG) {
 		switch (index) {
 			case RETRO_DEVICE_INDEX_ANALOG_LEFT:
